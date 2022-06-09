@@ -7,6 +7,7 @@ public class Item{
 
     // CONSTRUTOR PARA FACILITAR O PROCESSO DE ADIÇÃO
     public Item(String nome, String descricao, float preco_venda, float preco_compra){
+
         this.nome = nome;
         this.descricao = descricao;
         this.preco_venda = preco_venda;

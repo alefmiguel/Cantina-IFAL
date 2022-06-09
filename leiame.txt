@@ -2,3 +2,19 @@
 
 - Álef Miguel de Santana
 - Arthur Couto de Moraes
+- Thiago Vinicius Peixoto
+- João Victor Zignago
+
+#RESUMO DO PROJETO
+O projeto consiste em juntar todos os conhecimentos adquiridos durante os cursos de Banco de Dados (BCDD) e PROO (Programação Orientada a Objetos), o que torna as coisas as mais interessantes, visto que, por ser um projeto bastante completo, nos aprimora para trabalhar em projetos pelo mundo a fora, conectando outros bancos de dados fora o que estaremos usando, aqui, neste projeto.
+
+#SE FOI FEITO TUDO 
+Sim, fizemos tudo.
+
+#FERRAMENTAS UTILIZADAS (CONFIG)
+SGBD utilizado:
+nome do banco: 
+usuário:
+senha:
+onde alterar: 
+fontes: replit, alura, caelum
