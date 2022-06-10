@@ -1,20 +1,42 @@
 public class Item{
+    private int codigo;
     private String nome;
     private String descricao;
     private float preco_venda;
     private float preco_compra;
     private int quantidade;
+    private int estoque_min;
 
     // CONSTRUTOR PARA FACILITAR O PROCESSO DE ADIÇÃO
     public Item(String nome, String descricao, float preco_venda, float preco_compra){
-
         this.nome = nome;
         this.descricao = descricao;
         this.preco_venda = preco_venda;
         this.preco_compra = preco_compra;
     }
 
-    // GETTERS e SETTERS
+    public Item(int codigo, String nome, String descricao, float preco_venda, float preco_compra, int estoque_min){
+        this.codigo = codigo;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco_venda = preco_venda;
+        this.preco_compra = preco_compra;
+        this.estoque_min = estoque_min;
+    }
+
+    public Item(){
+
+    }
+    // GETTERS
+
+    public int getEstoque_min() {
+        return estoque_min;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -35,12 +57,41 @@ public class Item{
         return descricao;
     }
 
+    //  SETTERS
     public void addQuantidade(int quantidade){
         this.quantidade += quantidade;
     }
 
     public void removeQuantidade(int quantidade){
         this.quantidade -= quantidade;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setEstoque_min(int estoque_min) {
+        this.estoque_min = estoque_min;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setPreco_compra(float preco_compra) {
+        this.preco_compra = preco_compra;
+    }
+
+    public void setPreco_venda(float preco_venda) {
+        this.preco_venda = preco_venda;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     // MÉTODO TOSTRING P VENDA / COMPRA
@@ -50,5 +101,11 @@ public class Item{
 
     public String toStringCompra(){
         return "Nome: " + nome + "\nDescricao: " + descricao + "\nPreco de compra: " + preco_compra + "\n";
+    }
+
+    @Override
+    public String toString() {
+        
+        return "\nCodigo: "+ this.codigo + "\nNome: "+ this.nome + "\nQuantidade: "+ this.quantidade;
     }
 }

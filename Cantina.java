@@ -2,6 +2,7 @@ import myexceptions.*;
 
 public class Cantina {
     private Estoque estoque = new Estoque();
+    
 
     public void verCardapioVenda(){
         System.out.println(estoque.toStringVenda());
@@ -17,19 +18,20 @@ public class Cantina {
         } else if (preco_venda < preco_compra) {
             throw new Exception("\nPreço de venda não pode ser menor que o preço de compra!");
         } else {
-            estoque.adicionarItem(new Item(nome, descricao, preco_venda, preco_compra));
+            Item itemAdicionar = new Item(nome, descricao, preco_venda, preco_compra);
+            estoque.getItemDAO().adiciona(itemAdicionar);
         }
         System.out.println("\nItem adicionado com sucesso!");
     }
 
-    public String comprarItem(String nome, int quantidade) throws Exception{
+    public String comprarItem(int codigo, int quantidade) throws Exception{
         for (Item item : estoque.getLista()) {
-            if (item.getNome().equals(nome)) {
+            if (item.getCodigo() == codigo) {
                 if (quantidade < 0){
                     throw new ItemException("\nQuantidade inválida!");
                 }
-                item.addQuantidade(quantidade);
-                estoque.addQuant_comprada(quantidade);
+                estoque.getItemDAO().atualizaQuantidade(codigo, quantidade);
+                estoque.atualizarEstoque();
                 estoque.addIvestimento(item.getPreco_compra() * quantidade);
                 return "\nItem comprado com sucesso!";
             }
@@ -37,13 +39,15 @@ public class Cantina {
         return "\nItem não encontrado!";
     }
 
-    public String venderItem(String nome, int quantidade) throws Exception{
+    public String venderItem(int codigo, int quantidade) throws Exception{
         for (Item item : estoque.getLista()) {
-            if (item.getNome().equals(nome)) {
-                if (item.getQuantidade() < quantidade) {
-                    throw new ItemException("\nQuantidade insuficiente!");
+            if (item.getCodigo() == codigo) {
+                if (quantidade < 0){
+                    throw new ItemException("\nQuantidade inválida!");
                 }
-                item.removeQuantidade(quantidade);
+                quantidade *= -1;
+                estoque.getItemDAO().atualizaQuantidade(codigo, quantidade);
+                estoque.atualizarEstoque();
                 estoque.addQuant_vendida(quantidade);
                 estoque.addLucro_bruto(item.getPreco_venda() * quantidade);
                 return "\nProduto vendido com sucesso!";

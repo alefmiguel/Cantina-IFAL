@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
 public class Estoque {
-    private ArrayList<Item> lista = new ArrayList<Item>();
+    private ItemDAO itemDAO = new ItemDAO();
+    private ArrayList<Item> lista = itemDAO.getLista();
     private int quant_vendida;
     private int quant_comprada;
     private float investimento;
@@ -9,7 +10,15 @@ public class Estoque {
     private float lucro_liquido = lucro_bruto - investimento;
 
     public Estoque() {
-        lista = new ArrayList<Item>();
+        
+    }
+
+    public void atualizarEstoque(){
+        this.lista = this.itemDAO.getLista();
+    }
+
+    public ItemDAO getItemDAO() {
+        return itemDAO;
     }
 
     public void adicionarItem(Item item) {
@@ -65,7 +74,7 @@ public class Estoque {
     public String toStringCompra() {
         String saida = "";
         for (Item item : lista) {
-            saida += item.toStringCompra() + "\n\n";
+            saida += item.toString() + "\n\n";
         }
         return saida;
     }
@@ -73,7 +82,7 @@ public class Estoque {
     public String toStringVenda() {
         String saida = "";
         for (Item item : lista) {
-            saida += item.toStringVenda() + "\n";
+            saida += item.toString() + "\n";
         }
         return saida;
     }

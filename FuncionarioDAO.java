@@ -35,6 +35,8 @@ public class FuncionarioDAO {
 		}
 	}
 
+
+	// METODO PRA CHECAR SE EXISTE ALGUM FUNCIONARIO COM ESSE CODIGO
 	public boolean checarFuncionario(int usuario){
 		for(var indice = 0; indice<getLista().size(); indice++){
 			if( getLista().get(indice).getCodigoUnico() == usuario ){
@@ -44,6 +46,7 @@ public class FuncionarioDAO {
 		return false;
 	}
 
+	// CHECAR SENHA
 	public boolean checarSenha(String senha) {
 		for(var indice = 0; indice<getLista().size(); indice++){
 			if( getLista().get(indice).getSenha().equals(senha)){
