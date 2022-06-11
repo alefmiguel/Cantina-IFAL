@@ -44,6 +44,6 @@ public class Funcionario {
 	@Override
 	public String toString() {
 		
-		return "Nome: "+this.nome;
+		return "Nome: "+this.nome+" | Código: "+this.codigoUnico;
 	}
 }

@@ -10,10 +10,11 @@ public class App {
             System.out.println("\nAutorização válida");
 
             int escolha = 0;
-            while (escolha != 4) {
+            while (escolha != 6) {
                 try {
                     escolha = Input.inputInt(
-                            "\nBem vindo ao modo de administrador.\n1 - Adicionar Produto\n2 - Comprar produto\n3 - Mostrar resumos úteis\n4 - Sair\nResposta: ");
+                            "\nBem vindo ao modo de administrador.\n1 - Adicionar Produto\n2 - Comprar produto\n3 - Mostrar resumos úteis\n4 - Cadastrar Funcionário\n5 - Ver Cadastrados\n6 - Sair\nResposta: ");
+                            
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -28,6 +29,7 @@ public class App {
                             this.cantina.adicionarItem(nome, descricao, preco_venda, preco_compra);
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
+                            escolha = -1;
                         }
                         break;
                     case 2:
@@ -98,6 +100,25 @@ public class App {
                         }
                         break;
                     case 4:
+                        try {
+                            String nome = Input.input("Digite o >>NOME<< do Funcionário: ");
+                            int codigo = Input.inputInt("Digite o >>CODIGO DE LOGIN<< do Funcionário: ");
+                            String senha_funcionario = Input.input("Digite a >>SENHA<< do Funcionário: ");
+                            funcDAO.adiciona(new Funcionario(codigo, nome ,senha_funcionario));
+                            System.out.println("\nCadastro realizado!");
+                            cantina.atualizaCadastados();
+                        } catch (Exception e) {
+                            if(e.getMessage().equals("java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '666' for key 'PRIMARY'")){
+                                System.out.println("\nJá existe esse código cadastrado no sistema!");
+                            }else{
+                                System.out.println(e.getMessage());
+                            } 
+                        }
+                        break;
+                    case 5:
+                        System.out.println(cantina.mostraCadastrados());
+                        break;
+                    case 6:
                         break;
                     default:
                         System.out.println("Escolha não encontrada!\n");

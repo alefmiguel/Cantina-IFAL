@@ -14,8 +14,8 @@ public class FuncionarioDAO {
 	}
 
 	public void adiciona(Funcionario funcionario) {
-		String insercao = "insert into funcionarios " +
-				"(codigo, nome, senha)" +
+		String insercao = "insert into funcionario " +
+				"(codUnico, nome, senha)" +
 				" values (?,?,?)";
 		try {
 
@@ -57,9 +57,9 @@ public class FuncionarioDAO {
 	}
 
 
-	public List<Funcionario> getLista() {
+	public ArrayList<Funcionario> getLista() {
         try {
-            List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+            ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
             PreparedStatement stmt = this.con.prepareStatement("select * from funcionario");
             ResultSet rs = stmt.executeQuery();
 

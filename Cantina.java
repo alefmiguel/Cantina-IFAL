@@ -1,8 +1,30 @@
+import java.util.ArrayList;
+
 import myexceptions.*;
 
 public class Cantina {
     private Estoque estoque = new Estoque();
-    
+    private FuncionarioDAO funcDAO = new FuncionarioDAO();
+    private ArrayList<Funcionario> func_cadastrados = funcDAO.getLista();;
+
+
+    public void atualizaCadastados(){
+        this.func_cadastrados = funcDAO.getLista();
+    }
+
+    public ArrayList<Funcionario> getFunc_cadastrados() {
+        return func_cadastrados;
+    }
+
+    public String mostraCadastrados(){
+        String saida = "\nCADASTRADOS";
+
+        for (int indice = 0; indice < func_cadastrados.size(); indice++) {
+            saida += "\n["+indice+"] - " + func_cadastrados.get(indice);
+        }
+        
+        return saida;
+    }
 
     public void verCardapioVenda(){
         System.out.println(estoque.toStringVenda());
@@ -20,6 +42,7 @@ public class Cantina {
         } else {
             Item itemAdicionar = new Item(nome, descricao, preco_venda, preco_compra);
             estoque.getItemDAO().adiciona(itemAdicionar);
+            estoque.atualizarEstoque();
         }
         System.out.println("\nItem adicionado com sucesso!");
     }

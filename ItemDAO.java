@@ -19,19 +19,19 @@ public class ItemDAO {
 	// METODO QUE ADICIONA ITENS AO BANDO DE DADOS
 	public void adiciona(Item item) {
 		String insercao = "insert into produto " +
-				"(cod_produto, nome, descricao, preco_compra, preco_venda, qtd_comprada, estoque_min)" +
-				" values (?,?,?,?,?,?,?)";
+				"(nome, descricao, preco_compra, preco_venda, qtd_comprada, estoque_min)" +
+				" values (?,?,?,?,?,?)";
 		try {
 
 			PreparedStatement stmt = con.prepareStatement(insercao);
 
 			// stmt.setInt(1, item.getCodigo());
-			stmt.setString(2, item.getNome());
-			stmt.setString(3, item.getDescricao());
-			stmt.setFloat(4, item.getPreco_compra());
-			stmt.setFloat(5, item.getPreco_venda());
+			stmt.setString(1, item.getNome());
+			stmt.setString(2, item.getDescricao());
+			stmt.setFloat(3, item.getPreco_compra());
+			stmt.setFloat(4, item.getPreco_venda());
 			stmt.setInt(5, item.getQuantidade());
-			stmt.setInt(7, item.getEstoque_min());
+			stmt.setInt(6, item.getEstoque_min());
 
 			stmt.execute();
 			stmt.close();
