@@ -48,7 +48,7 @@ public class App {
 
                             try {
                                 escolha_resumos = Input.inputInt(
-                                        "Bem vindo aos resumos.\n1 - Resumo do lucro/prejúizo\n2 - Resumo de itens em  baixa\n3 - Mostrar resumos de todos os itens\n4 - Sair\nResposta: ");
+                                        "\nBem vindo aos resumos.\n1 - Resumo do lucro/prejúizo\n2 - Resumo de itens em  baixa\n3 - Mostrar resumos de todos os itens\n4 - Sair\nResposta: ");
                             } catch (Exception e) {
                                 System.out.println(e.getMessage());
                             }
@@ -106,9 +106,9 @@ public class App {
                             String senha_funcionario = Input.input("Digite a >>SENHA<< do Funcionário: ");
                             funcDAO.adiciona(new Funcionario(codigo, nome ,senha_funcionario));
                             System.out.println("\nCadastro realizado!");
-                            cantina.atualizaCadastados();
+                            cantina.atualizaCadastrados();
                         } catch (Exception e) {
-                            if(e.getMessage().equals("java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '666' for key 'PRIMARY'")){
+                            if(e.getMessage().equals("Duplicate entry '666' for key 'PRIMARY'")){
                                 System.out.println("\nJá existe esse código cadastrado no sistema!");
                             }else{
                                 System.out.println(e.getMessage());
@@ -145,10 +145,30 @@ public class App {
             switch (escolha) {
                 case 1:
                     try {
-                        cantina.verCardapioVenda();
-                        int codigo = Input.inputInt("Digite o codigo do produto desejado.");
-                        int quantidade = Input.inputInt("Digite o numero de unidades a serem compradas.");
-                        System.out.println(this.cantina.venderItem(codigo, quantidade));
+                        int opcaoProdutos = -1;
+                        // CRIA A OBJETO VENDA DESSA COMPRA E ADICIONA NA TABELA 
+                        String forma_pagamento = Input.input("Digite a forma de pagamento: ");
+                        int codigo_venda = cantina.criarVenda(forma_pagamento);
+                        
+                        do {
+                            
+                            cantina.verCardapioVenda();
+                            // PEGA ITEM E QUANTIDADE
+                            int codigo = Input.inputInt("Digite o codigo do produto desejado: ");
+                            int quantidade = Input.inputInt("Digite o numero de unidades a serem compradas.");
+                            
+                            try {
+                                cantina.venderItem(codigo , codigo_venda, quantidade);
+                                opcaoProdutos = Input.inputInt("Continuar comprando? Digite 0 pra sair");
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                            }
+                           
+                            
+                        } while (opcaoProdutos != 0);
+                        
+                        cantina.atualizarTotalVenda(codigo_venda);
+                        
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                         acessoCliente();
@@ -175,7 +195,7 @@ public class App {
         while (escolha != 3) {
             try {
                 escolha = Input.inputInt(
-                        "Bem vindo ao sistema de compras.\n1 - Acessar como administrador\n2 - Acessar como cliente\n3 - Sair\nResposta: ");
+                        "\nBem vindo ao sistema de compras.\n1 - Acessar como administrador\n2 - Acessar como cliente\n3 - Sair\nResposta: ");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

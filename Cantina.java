@@ -5,22 +5,26 @@ import myexceptions.*;
 public class Cantina {
     private Estoque estoque = new Estoque();
     private FuncionarioDAO funcDAO = new FuncionarioDAO();
-    private ArrayList<Funcionario> func_cadastrados = funcDAO.getLista();;
+    private ArrayList<Funcionario> func_cadastrados = funcDAO.getLista();
+    private VendaDAO vendaDAO = new VendaDAO();
 
 
-    public void atualizaCadastados(){
+    public void atualizaCadastrados(){
         this.func_cadastrados = funcDAO.getLista();
     }
+    
 
     public ArrayList<Funcionario> getFunc_cadastrados() {
         return func_cadastrados;
     }
 
+    
+
     public String mostraCadastrados(){
         String saida = "\nCADASTRADOS";
 
         for (int indice = 0; indice < func_cadastrados.size(); indice++) {
-            saida += "\n["+indice+"] - " + func_cadastrados.get(indice);
+            saida += "\n["+(indice+1)+"] - " + func_cadastrados.get(indice);
         }
         
         return saida;
@@ -55,24 +59,25 @@ public class Cantina {
                 }
                 estoque.getItemDAO().atualizaQuantidade(codigo, quantidade);
                 estoque.atualizarEstoque();
-                estoque.addIvestimento(item.getPreco_compra() * quantidade);
                 return "\nItem comprado com sucesso!";
             }
         }
         return "\nItem não encontrado!";
     }
 
-    public String venderItem(int codigo, int quantidade) throws Exception{
+    public String venderItem(int codigo, int cod_venda ,int quantidade) throws Exception{
+        
         for (Item item : estoque.getLista()) {
             if (item.getCodigo() == codigo) {
                 if (quantidade < 0){
                     throw new ItemException("\nQuantidade inválida!");
+                }else if(item.getQuantidade() < quantidade){
+                    throw new ItemException("\nQuantidade insuficiente!");
                 }
-                quantidade *= -1;
-                estoque.getItemDAO().atualizaQuantidade(codigo, quantidade);
+                
+                ItemVendido vendido = new ItemVendido(codigo, cod_venda, quantidade);
+                estoque.getItemVendidoDAO().adicionaItemVendido(vendido);
                 estoque.atualizarEstoque();
-                estoque.addQuant_vendida(quantidade);
-                estoque.addLucro_bruto(item.getPreco_venda() * quantidade);
                 return "\nProduto vendido com sucesso!";
             }
         }
@@ -111,5 +116,21 @@ public class Cantina {
         }
 
         return resumo;
+    }
+
+    public int criarVenda(String forma_pagamento) throws Exception{
+        Venda vendaAdicionar = new Venda(forma_pagamento);
+        estoque.getVendaDAO().adiciona(vendaAdicionar);
+        estoque.atualizarEstoque();
+        System.out.println("\nBoas compras!");
+        return vendaAdicionar.getCod_venda();
+    }
+
+    public void atualizarTotalVenda(int cod_venda ){
+        estoque.getVendaDAO().atualizarTotalVenda(cod_venda, estoque.totalPorVenda(cod_venda));
+    }
+
+    public void atualizarQuantidadeItemVendido(int cod_venda, int quantidade, int cod_prod){
+        estoque.getItemVendidoDAO().atualizarQuantidadeItemVendido(cod_venda, cod_prod, quantidade);
     }
 }

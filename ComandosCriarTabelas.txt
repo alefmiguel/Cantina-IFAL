@@ -1,0 +1,10 @@
+CRIAR TABELAS DEPOIS
+
+CREATE TABLE item_vendido(
+    id int(5) PRIMARY KEY,
+    cod_produto int(5),
+    cod_venda int(4), 
+    quantidade int(6),
+    FOREIGN KEY (cod_produto) REFERENCES produto(cod_produto),
+    FOREIGN KEY (cod_venda) REFERENCES venda(cod_venda)
+)
