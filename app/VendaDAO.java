@@ -1,3 +1,5 @@
+package app;
+
 import connections.*;
 
 
@@ -156,4 +158,22 @@ public class VendaDAO {
             throw new RuntimeException(e);
         }
     }
+
+	public void excluir(int cod_venda) {
+		String insercao = "delete from venda where cod_venda = ? ";
+		try {
+
+			PreparedStatement stmt = con.prepareStatement(insercao);
+
+			stmt.setInt(1, cod_venda);
+
+			stmt.execute();
+			stmt.close();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} catch (RuntimeException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

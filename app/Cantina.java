@@ -1,3 +1,4 @@
+package app;
 import java.util.ArrayList;
 
 import myexceptions.*;
@@ -7,18 +8,25 @@ public class Cantina {
     private FuncionarioDAO funcDAO = new FuncionarioDAO();
     private ArrayList<Funcionario> func_cadastrados = funcDAO.getLista();
     private VendaDAO vendaDAO = new VendaDAO();
-
+    private ArrayList<ItemVendido> carrinho = new ArrayList<ItemVendido>();
 
     public void atualizaCadastrados(){
         this.func_cadastrados = funcDAO.getLista();
     }
     
 
+    public ArrayList<ItemVendido> getCarrinho() {
+        return carrinho;
+    }
+
     public ArrayList<Funcionario> getFunc_cadastrados() {
         return func_cadastrados;
     }
 
     
+    public Estoque getEstoque() {
+        return estoque;
+    }
 
     public String mostraCadastrados(){
         String saida = "\nCADASTRADOS";
@@ -84,6 +92,12 @@ public class Cantina {
         return "\nItem não encontrado!";
     }
 
+    public void venderListaCarrinho(ArrayList<ItemVendido> carrinho) throws Exception{
+        for (int indice = 0; indice < carrinho.size(); indice ++) {
+            venderItem(carrinho.get(indice).getCod_prod(), carrinho.get(indice).getCod_venda(), carrinho.get(indice).getQuantidade());
+        }
+    }
+
     public String resumoLucro(){
         if (estoque.getLucro_liquido() > 0) {
             return "\nLucro Liquido: R$ " + estoque.getLucro_liquido() + "\n";
@@ -122,7 +136,6 @@ public class Cantina {
         Venda vendaAdicionar = new Venda(forma_pagamento);
         estoque.getVendaDAO().adiciona(vendaAdicionar);
         estoque.atualizarEstoque();
-        System.out.println("\nBoas compras!");
         return vendaAdicionar.getCod_venda();
     }
 

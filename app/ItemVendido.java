@@ -1,3 +1,5 @@
+package app;
+
 public class ItemVendido {
     private int cod_venda;
     private int cod_prod;

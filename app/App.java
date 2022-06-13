@@ -1,3 +1,4 @@
+package app;
 import myexceptions.*;
 
 public class App {

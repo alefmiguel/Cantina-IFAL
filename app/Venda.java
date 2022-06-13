@@ -1,3 +1,4 @@
+package app;
 import java.sql.Date;
 // import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,7 +19,6 @@ public class Venda {
     public Venda(String forma_pagamento){
         vendaDAO = new VendaDAO();
         this.cod_venda = vendaDAO.codigoVenda(cod_venda);
-        System.out.println(this.cod_venda);
         this.forma_pagamento = forma_pagamento; 
         this.data_venda = new Date(Calendar.getInstance().getTimeInMillis());
     }

@@ -1,3 +1,4 @@
+package app;
 import java.util.ArrayList;
 
 public class Estoque {
@@ -8,6 +9,7 @@ public class Estoque {
     private ArrayList<Item> listaProdutos;
     // private ArrayList<ItemVendido> listaVendidos;
     private ArrayList<Venda> listaVendas;
+    private ArrayList<ItemVendido> carrinho;
 
     private int quant_vendida;
     private int quant_comprada;
@@ -24,6 +26,7 @@ public class Estoque {
         this.investimento = calculaInvestimento();
         this.lucro_bruto = calculaLucroBruto();
         this.lucro_liquido = lucro_bruto - investimento;
+        
     }
 
     //
@@ -31,6 +34,8 @@ public class Estoque {
         this.listaProdutos = produtosDisponiveis();
         // this.listaVendidos = this.itemVendidoDAO.getListaVendidos();
     }
+
+
 
 
     public Double totalPorVenda(int cod_venda) {

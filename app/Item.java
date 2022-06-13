@@ -1,3 +1,4 @@
+package app;
 public class Item{
     private int codigo;
     private String nome;
@@ -116,6 +117,6 @@ public class Item{
     @Override
     public String toString() {
         
-        return "\n-------------\nNome: "+ this.nome + "\nCódigo: "+ this.codigo + "\nQuantidade: "+ this.quantidade + "\nPreço: "+ this.preco_venda + "\n";
+        return this.getCodigo() + " | " + this.nome + " | R$" + this.getPreco_venda();
     }
 }

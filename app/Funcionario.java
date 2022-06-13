@@ -1,3 +1,5 @@
+package app;
+
 public class Funcionario {
 	private int codigoUnico;
 	private String nome;
