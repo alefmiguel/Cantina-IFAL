@@ -1,3 +1,4 @@
+package telas;
 import app.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
@@ -16,8 +17,12 @@ public class TelaAdm extends JFrame {
 	private Container painel;
 	private GridLayout layout;
 	private Image image = new ImageIcon("image/logo3.png").getImage();
+	private Cantina cantina;
+
 
 	public TelaAdm() {
+
+		cantina = new Cantina();
 
 		//
 		try {
@@ -28,10 +33,10 @@ public class TelaAdm extends JFrame {
 
 		// LAYOUT E PAINEL
 		painel = getContentPane();
-		layout = new GridLayout(6, 1, 0, 3);
+		layout = new GridLayout(7, 1, 0, 3);
 
 		// CRIANDO COMPONENTES
-		// texto = new JLabel("Escolha um tipo", SwingConstants.CENTER);
+		texto = new JLabel("OPÇÕES ADMINISTRADOR", SwingConstants.CENTER);
 		btnCadastraProd = new JButton("Cadastrar Produto");
 		btnAumentaProd = new JButton("Aumentar Estoque");
 		btnMostraResumo = new JButton("Mostrar Resumo");
@@ -43,8 +48,8 @@ public class TelaAdm extends JFrame {
 		((JComponent) painel).setBorder(new EmptyBorder(25, 25, 25, 25));
 
 		// SETANDO INFORMAÇÕES DA TELA
-		setFont(new Font("Monospace", Font.BOLD, 20));
-		setSize(400, 350);
+		texto.setFont(new Font("Monospace", Font.BOLD, 20));
+		setSize(400, 450);
 		setTitle("ADMINISTRADOR");
 		setVisible(true);
 		setResizable(false);
@@ -54,6 +59,7 @@ public class TelaAdm extends JFrame {
 		setLocationRelativeTo(null);
 
 		// ADICIONANDO ELEMENTOS
+		painel.add(texto);
 		painel.add(btnCadastraProd);
 		painel.add(btnAumentaProd);
 		painel.add(btnMostraResumo);
@@ -68,11 +74,74 @@ public class TelaAdm extends JFrame {
 					}
 				});
 
+		btnCadastraProd.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						acaoBtnCadastra();
+					}
+				});
+
+		btnAumentaProd.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						acaoBtnAumentaProd();
+					}
+				});
+
+		btnMostraResumo.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						mostrarResumo();
+					}
+				});
+
+		btnCadastraFunc.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						acaoBtnCadastraFunc();
+					}
+				});
+
+		btnVerCadastrados.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						mostraCadastrados();
+					}
+				});
+		
+				
 	}
 
 	private void acaoBtnSair(ActionEvent event) {
 		TelaLogin telaLogin = new TelaLogin();
 			this.dispose();
 			telaLogin.setVisible(true);
+	}
+
+	private void acaoBtnCadastra(){
+		JFrame telaCadastra = new TelaCadastraProdutos();
+		this.dispose();
+		telaCadastra.setVisible(true);
+	}
+
+	private void acaoBtnAumentaProd(){
+		JFrame telaAumenta = new TelaAumentarEstoque();
+		this.dispose();
+		telaAumenta.setVisible(true);
+	}
+
+	private void mostrarResumo(){
+		JOptionPane.showMessageDialog(painel, cantina.resumoLucro());
+	}
+
+	private void acaoBtnCadastraFunc(){
+		JFrame telaCadastraFunc = new TelaCadastraFunc();
+		this.dispose();
+		telaCadastraFunc.setVisible(true);
+	}
+
+	private void mostraCadastrados(){
+		TelaMostraFunc telaMostraFunc = new TelaMostraFunc();
+		telaMostraFunc.setVisible(true);
 	}
 }

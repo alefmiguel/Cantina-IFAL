@@ -14,6 +14,9 @@ public class Cantina {
         this.func_cadastrados = funcDAO.getLista();
     }
     
+    public FuncionarioDAO getFuncDAO() {
+        return funcDAO;
+    }
 
     public ArrayList<ItemVendido> getCarrinho() {
         return carrinho;

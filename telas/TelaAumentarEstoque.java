@@ -1,3 +1,5 @@
+package telas;
+
 import app.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
@@ -5,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class TelaClienteEPrd extends JFrame {
+public class TelaAumentarEstoque extends JFrame {
 
     private SpinnerNumberModel model;
     private JSpinner qtdEscolher;
@@ -15,20 +17,13 @@ public class TelaClienteEPrd extends JFrame {
     private JComboBox<Item> comboBprodutos;
     private ArrayList<Item> produtos;
     private JLabel texto;
-
     private Container painel;
     private GridLayout layout;
     private DefaultListCellRenderer listRenderer;
     private Image image = new ImageIcon("image/logo3.png").getImage();
 
-    private ArrayList<ItemVendido> carrinho;
-    private int cod_venda;
-
     // TELA CLIENTE ESCOLHE PRODUTO
-    public TelaClienteEPrd(int cod_venda, ArrayList<ItemVendido> carrinho) {
-
-        this.cod_venda = cod_venda;
-        this.carrinho = carrinho;
+    public TelaAumentarEstoque() {
 
         // OBJETOS APP
         cantina = new Cantina();
@@ -51,25 +46,20 @@ public class TelaClienteEPrd extends JFrame {
         listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
         comboBprodutos = criaComboBox(produtos);
         comboBprodutos.setRenderer(listRenderer);
-
-        int qtdPrimeiroItem = getItemDiffZero(produtos);
-        if (qtdPrimeiroItem == 0) {
-            model = new SpinnerNumberModel(0, 0, 0, 1);
-        } else {
-            model = new SpinnerNumberModel(1, 1, qtdPrimeiroItem, 1);
-        }
+        model = new SpinnerNumberModel(1, 1, 100000, 1);
+        
 
         qtdEscolher = new JSpinner(model);
         btnVoltar = new JButton("Voltar");
         btnAdicionar = new JButton("Adicionar");
-        texto = new JLabel("Escolha Um Produto", SwingConstants.CENTER);
+        texto = new JLabel("ADICIONAR ESTOQUE", SwingConstants.CENTER);
         texto.setFont(new Font("Monospace", Font.BOLD, 20));
         // PADDINGS
         ((JComponent) painel).setBorder(new EmptyBorder(55, 55, 55, 55));
 
         // SETANDO INFORMAÇÕES DA TELA
         setSize(400, 350);
-        setTitle("COMPRAR");
+        setTitle("ADICIONAR ESTOQUE");
         setVisible(true);
         setResizable(false);
         painel.setLayout(layout);
@@ -88,60 +78,27 @@ public class TelaClienteEPrd extends JFrame {
         btnVoltar.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
-                        acaoBtnVoltar(cod_venda, carrinho);
+                        acaoBtnVoltar();
                     }
                 });
-
-        comboBprodutos.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent ie) {
-
-                if (ie.getStateChange() == ItemEvent.SELECTED) {
-
-                    int valorMax = mudaQuantidadeItem(ie.getItem().toString());
-                    model.setMaximum(valorMax);
-                    model.setValue(1);
-                    if (valorMax == 0) {
-                        model.setValue(0);
-                    }
-                }
-            }
-        });
 
         btnAdicionar.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
+                        cantina.getEstoque().atualizarEstoque();
+                        adicionaQuantidadeItem(comboBprodutos.getSelectedItem().toString(), (int) model.getValue());
                         JOptionPane.showMessageDialog(painel, "Produto Adicionado!");
                         cantina.getEstoque().atualizarEstoque();
-                        adicionaItemCarrinho(
-                                Integer.parseInt(comboBprodutos.getSelectedItem().toString().substring(0, 1)),
-                                cod_venda, (int) model.getValue());
+                        acaoBtnVoltar();
                     }
                 });
 
     }
 
-    // ADICIONA ITEM NO CARRINHO E SE JÁ TIVER SÓ ALTERA A QUANTIDADE
-    private boolean adicionaItemCarrinho(int cod_item, int cod_venda, int quantidade) {
-        ItemVendido itemVendido = new ItemVendido(cod_item, cod_venda, quantidade);
-        if (quantidade > 0) {
-
-            for (int indice = 0; indice < carrinho.size(); indice++) {
-                if (carrinho.get(indice).getCod_prod() == itemVendido.getCod_prod()) {
-                    carrinho.get(indice)
-                            .setQuantidade(carrinho.get(indice).getQuantidade() + itemVendido.getQuantidade());
-                    return true;
-                }
-            }
-
-            this.carrinho.add(itemVendido);
-        }
-        return false;
-    }
-
-    private void acaoBtnVoltar(int cod_venda, ArrayList<ItemVendido> carrinho) {
-        JFrame telaCliente = new TelaClienteCpm(cod_venda, carrinho);
+    private void acaoBtnVoltar() {
+        JFrame telaAdm = new TelaAdm();
         this.dispose();
-        telaCliente.setVisible(true);
+        telaAdm.setVisible(true);
     }
 
     // CRIA O COMBO BOX A PARTIR DO ARRAYLIST
@@ -155,28 +112,20 @@ public class TelaClienteEPrd extends JFrame {
         return comboBprodutos;
     }
 
-    // PEGA O CÓDIGO DO ITEM DE UMA STRING E TRANSFORMA EM INTEIRO
-    private int mudaQuantidadeItem(String codigo) {
-        int quantidade = -1;
+    // ADICIONA QUANTIDADE NO ITEM
+
+    private void adicionaQuantidadeItem(String codigo, int quantidade) {
         int codigoInt = Integer.parseInt(codigo.substring(0, 1));
-        for (int indice = 0; indice < produtos.size(); indice++) {
-            if (produtos.get(indice).getCodigo() == codigoInt) {
-                quantidade = produtos.get(indice).getQuantidade();
+        try {
+            for (int indice = 0; indice < produtos.size(); indice++) {
+                if (produtos.get(indice).getCodigo() == codigoInt) {
+                    cantina.comprarItem(produtos.get(indice).getCodigo(), quantidade);
+                }
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
-        return quantidade;
-    }
-
-    // FUNÇÃO QUE VERIFICA QUAL O PRIMEIRO ITEM COM QUANTIDADE DIFERENTE DE 0
-
-    private int getItemDiffZero(ArrayList<Item> produtos) {
-        for (int indice = 0; indice < produtos.size(); indice++) {
-            if (produtos.get(0).getQuantidade() != 0) {
-                return produtos.get(0).getQuantidade();
-            }
-        }
-        return 0;
     }
 
 }

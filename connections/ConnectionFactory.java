@@ -22,9 +22,4 @@ public class ConnectionFactory {
             throw new RuntimeException(e);
         }
     }
-    public static void main(String[] args)  {
-        Connection conexao = ConnectionFactory.getConnection();
-        System.out.println("Conexao aberta!");
-        ConnectionFactory.closeConnection(conexao);
-    }
 }

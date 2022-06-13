@@ -1,3 +1,4 @@
+package telas;
 import app.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
@@ -72,6 +73,7 @@ public class TelaClienteCpm extends JFrame {
             new ActionListener(){
               public void actionPerformed(ActionEvent event){
                 excluirTabela();
+                mostraCancelar();
                 acaoBtnVoltar();
               }
             }
@@ -137,5 +139,9 @@ public class TelaClienteCpm extends JFrame {
 
     public void excluirTabela(){
       cantina.getEstoque().getVendaDAO().excluir(cod_venda);
+    }
+
+    public void mostraCancelar(){
+      JOptionPane.showMessageDialog(painel, "Operação Cancelada!");
     }
 }

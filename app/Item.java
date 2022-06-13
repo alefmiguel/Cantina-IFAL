@@ -117,6 +117,6 @@ public class Item{
     @Override
     public String toString() {
         
-        return this.getCodigo() + " | " + this.nome + " | R$" + this.getPreco_venda();
+        return this.getCodigo() + " | " + this.nome + " | " + this.quantidade +" itens  | R$" + this.getPreco_venda();
     }
 }

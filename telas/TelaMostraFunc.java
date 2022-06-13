@@ -1,3 +1,4 @@
+package telas;
 import app.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
@@ -5,10 +6,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class TelaMostraProdutos extends JFrame {
+public class TelaMostraFunc extends JFrame {
 
     private Cantina cantina = new Cantina();
     private JList jlist;
+    private JScrollPane scrollPane;
     private DefaultListModel model;
     private JLabel texto;
     private Container painel; 
@@ -16,11 +18,11 @@ public class TelaMostraProdutos extends JFrame {
     private DefaultListCellRenderer listRenderer;
     private Image image = new ImageIcon("image/logo3.png").getImage();
     
-    private ArrayList<Item> produtos;
+    private ArrayList<Funcionario> funcionarios;
 
-    public TelaMostraProdutos() {
+    public TelaMostraFunc() {
 
-        this.produtos = cantina.getEstoque().produtosDisponiveis();
+        this.funcionarios = cantina.getFunc_cadastrados();
 
         // 
         try {
@@ -33,11 +35,13 @@ public class TelaMostraProdutos extends JFrame {
 
         // LAYOUT E PAINEL
         painel = getContentPane();
-        layout = new GridLayout(1,1,0,3);
+        layout = new GridLayout(2,1,0,3);
 
         // CRIANDO COMPONENTES
-        jlist = criaJlist(produtos);
-        texto = new JLabel("Produtos", SwingConstants.CENTER);
+        scrollPane = new JScrollPane();
+        jlist = criaJlist(funcionarios);
+        scrollPane.setViewportView(jlist);
+        texto = new JLabel("Cadastrados", SwingConstants.CENTER);
         texto.setFont(new Font("Monospace", Font.BOLD, 20));
 
         // PADDINGS 
@@ -46,7 +50,7 @@ public class TelaMostraProdutos extends JFrame {
         // SETANDO INFORMAÇÕES DA TELA
         setFont(new Font("Monospace", Font.BOLD, 20));
         setSize(400, 350);
-        setTitle("Cliente");
+        setTitle("Funcionários Cadastrados");
         setVisible(true);
         setResizable(false);
         painel.setLayout(layout);
@@ -56,27 +60,20 @@ public class TelaMostraProdutos extends JFrame {
 
         // ADICIONANDO ELEMENTOS
         painel.add(texto);
-        painel.add(jlist);
+        painel.add(scrollPane);
       
 
         
     }
 
 
-    private JList<Item> criaJlist(ArrayList<Item> produtos) {
-        model = new DefaultListModel<Item>();
-        for (int i = 0; i < produtos.size(); i++) {
-            model.addElement(produtos.get(i));
+    private JList<Funcionario> criaJlist(ArrayList<Funcionario> funcionarios) {
+        model = new DefaultListModel<Funcionario>();
+        for (int i = 0; i < funcionarios.size(); i++) {
+            model.addElement(funcionarios.get(i));
         }
-        jlist = new JList<Item>(model);
+        jlist = new JList<Funcionario>(model);
         return jlist;
     }
-
-    private void acaoBtnSair(){
-        JFrame telaCliente = new TelaCliente();
-        this.dispose();
-        telaCliente.setVisible(true);
-    }
-
 
 }
