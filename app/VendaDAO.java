@@ -1,8 +1,4 @@
 package app;
-
-import connections.*;
-
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +9,8 @@ import java.util.ArrayList;
 public class VendaDAO {
     private Connection con;
 
-	public VendaDAO (){
-		this.con = ConnectionFactory.getConnection();
+	public VendaDAO (Connection conexao){
+		this.con = conexao;
 	}
 
 

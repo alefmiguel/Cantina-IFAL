@@ -39,7 +39,7 @@ public class CreateTable {
         "FOREIGN KEY (cod_produto) REFERENCES produto(cod_produto),"+
         "FOREIGN KEY (cod_venda) REFERENCES venda(cod_venda));";
     public static void main(String[] args) throws SQLException {
-        String create_table_sql = tabelaFuncionario;
+        String create_table_sql = tabelaItemVendido;
         Connection con = ConnectionFactory.getConnection();
 
         Statement stmt = con.createStatement();

@@ -1,14 +1,29 @@
 package app;
+import java.sql.Connection;
 import java.util.ArrayList;
-
 import myexceptions.*;
 
 public class Cantina {
-    private Estoque estoque = new Estoque();
-    private FuncionarioDAO funcDAO = new FuncionarioDAO();
-    private ArrayList<Funcionario> func_cadastrados = funcDAO.getLista();
-    private VendaDAO vendaDAO = new VendaDAO();
-    private ArrayList<ItemVendido> carrinho = new ArrayList<ItemVendido>();
+
+    private Estoque estoque;
+    private FuncionarioDAO funcDAO;
+    private ArrayList<Funcionario> func_cadastrados;
+    private VendaDAO vendaDAO;
+    private ArrayList<ItemVendido> carrinho;
+    private Connection conexao;
+
+    public Cantina(Connection conexao){
+        this.conexao = conexao;
+        this.estoque = new Estoque(this.conexao);
+        this.funcDAO = new FuncionarioDAO(this.conexao);
+        this.vendaDAO = new VendaDAO(this.conexao);
+        this.func_cadastrados = funcDAO.getLista();
+        this.carrinho = new ArrayList<ItemVendido>();
+    }
+
+    public VendaDAO getVendaDAO() {
+        return vendaDAO;
+    }
 
     public void atualizaCadastrados(){
         this.func_cadastrados = funcDAO.getLista();
@@ -136,7 +151,7 @@ public class Cantina {
     }
 
     public int criarVenda(String forma_pagamento) throws Exception{
-        Venda vendaAdicionar = new Venda(forma_pagamento);
+        Venda vendaAdicionar = new Venda(this.conexao, forma_pagamento);
         estoque.getVendaDAO().adiciona(vendaAdicionar);
         estoque.atualizarEstoque();
         return vendaAdicionar.getCod_venda();

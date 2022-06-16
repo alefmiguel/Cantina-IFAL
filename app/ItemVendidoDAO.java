@@ -1,6 +1,4 @@
 package app;
-
-import connections.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,8 +10,8 @@ public class ItemVendidoDAO {
     
 	private Connection con;
 
-	public ItemVendidoDAO (){
-		this.con = ConnectionFactory.getConnection();
+	public ItemVendidoDAO (Connection conexao){
+		this.con = conexao;
 	}
 
 
@@ -52,7 +50,7 @@ public class ItemVendidoDAO {
 
             while (rs.next()) {
                 // criando o objeto Funcionario
-                ItemVendido itemVendido = new ItemVendido();
+                ItemVendido itemVendido = new ItemVendido(this.con);
 				itemVendido.setID(rs.getInt("id"));
 				itemVendido.setCod_venda(rs.getInt("cod_venda"));
 				itemVendido.setCod_prod(rs.getInt("cod_produto"));
@@ -132,7 +130,7 @@ public class ItemVendidoDAO {
 
             while (rs.next()) {
                 // criando o objeto Funcionario
-                ItemVendido itemVendido = new ItemVendido();
+                ItemVendido itemVendido = new ItemVendido(this.con);
 				itemVendido.setID(rs.getInt("id"));
 				itemVendido.setCod_venda(rs.getInt("cod_venda"));
 				itemVendido.setCod_prod(rs.getInt("cod_produto"));
@@ -164,7 +162,7 @@ public class ItemVendidoDAO {
 			
             while (rs.next()) {
                 // criando o objeto Funcionario
-                ItemVendido itemVendido = new ItemVendido();
+                ItemVendido itemVendido = new ItemVendido(this.con);
 				itemVendido.setID(rs.getInt("id"));
 				itemVendido.setCod_venda(rs.getInt("cod_venda"));
 				itemVendido.setCod_prod(rs.getInt("cod_produto"));

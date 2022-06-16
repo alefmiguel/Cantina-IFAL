@@ -105,15 +105,6 @@ public class Item{
         this.quantidade = quantidade;
     }
 
-    // MÉTODO TOSTRING P VENDA / COMPRA
-    // public String toStringVenda(){
-    //     return "Nome: " + nome + "\nDescricao: " + descricao + "\nPreco: " + preco_venda + "\n";
-    // }
-
-    // public String toStringCompra(){
-    //     return "Nome: " + nome + "\nDescricao: " + descricao + "\nPreco de compra: " + preco_compra + "\n";
-    // }
-
     @Override
     public String toString() {
         

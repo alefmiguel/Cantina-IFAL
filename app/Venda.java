@@ -1,6 +1,6 @@
 package app;
+import java.sql.Connection;
 import java.sql.Date;
-// import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Venda {
@@ -10,14 +10,13 @@ public class Venda {
     private Double total_venda;
     private String forma_pagamento;
     private VendaDAO vendaDAO;
-
     // CONSTRUTORES
     public Venda(){
-
+       
     }
 
-    public Venda(String forma_pagamento){
-        vendaDAO = new VendaDAO();
+    public Venda(Connection conexao ,String forma_pagamento){
+        vendaDAO = new VendaDAO(conexao);
         this.cod_venda = vendaDAO.codigoVenda(cod_venda);
         this.forma_pagamento = forma_pagamento; 
         this.data_venda = new Date(Calendar.getInstance().getTimeInMillis());
@@ -55,14 +54,6 @@ public class Venda {
         this.data_venda = data;
     }
 
-    // public void setData_venda(int ano, int mes, int dia) {
-    //     if(ano <= 0 || mes <= 0 || dia <= 0){
-    //         throw new IllegalArgumentException("Valor do Dia, Mês ou Ano negativos ou igual a 0!");
-    //     }
-    //     Calendar data = Calendar.getInstance();
-    //     data.set(ano, mes-1, dia);
-    //     this.data_venda = new java.sql.Date(data.getTimeInMillis());
-    // }
 
     public void setDesconto(Double desconto) {
         this.desconto = desconto;

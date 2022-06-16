@@ -1,17 +1,17 @@
 package app;
-import connections.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class FuncionarioDAO {
+
 	private Connection con;
 
-	public FuncionarioDAO() {
-		this.con = ConnectionFactory.getConnection();
+	public FuncionarioDAO(Connection conexao) {
+		this.con = conexao;
 	}
 
 	public void adiciona(Funcionario funcionario) {
@@ -39,7 +39,7 @@ public class FuncionarioDAO {
 
 	// METODO PRA CHECAR SE EXISTE ALGUM FUNCIONARIO COM ESSE CODIGO
 	public boolean checarFuncionario(int usuario){
-		for(var indice = 0; indice<getLista().size(); indice++){
+		for(int indice = 0; indice<getLista().size(); indice++){
 			if( getLista().get(indice).getCodigoUnico() == usuario ){
 				return true;
 			}
@@ -49,7 +49,7 @@ public class FuncionarioDAO {
 
 	// CHECAR SENHA
 	public boolean checarSenha(String senha) {
-		for(var indice = 0; indice<getLista().size(); indice++){
+		for(int indice = 0; indice<getLista().size(); indice++){
 			if( getLista().get(indice).getSenha().equals(senha)){
 				return true;
 			}

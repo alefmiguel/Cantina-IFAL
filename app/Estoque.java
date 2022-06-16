@@ -1,4 +1,5 @@
 package app;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class Estoque {
@@ -9,7 +10,6 @@ public class Estoque {
     private ArrayList<Item> listaProdutos;
     // private ArrayList<ItemVendido> listaVendidos;
     private ArrayList<Venda> listaVendas;
-    private ArrayList<ItemVendido> carrinho;
 
     private int quant_vendida;
     private int quant_comprada;
@@ -17,10 +17,10 @@ public class Estoque {
     private float lucro_bruto;
     private float lucro_liquido;
 
-    public Estoque() {
-        this.itemDAO = new ItemDAO();
-        this.vendaDAO = new VendaDAO();
-        this.itemVendidoDAO = new ItemVendidoDAO();
+    public Estoque(Connection conexao) {
+        this.itemDAO = new ItemDAO(conexao);
+        this.vendaDAO = new VendaDAO(conexao);
+        this.itemVendidoDAO = new ItemVendidoDAO(conexao);
         this.listaProdutos = produtosDisponiveis();
         this.listaVendas = vendaDAO.getListaVenda();
         this.investimento = calculaInvestimento();
@@ -36,7 +36,9 @@ public class Estoque {
     }
 
 
-
+    public ArrayList<Venda> getListaVendas() {
+        return listaVendas;
+    }
 
     public Double totalPorVenda(int cod_venda) {
         atualizarEstoque();
@@ -145,17 +147,6 @@ public class Estoque {
         listaProdutos.add(item);
     }
 
-    // public void addQuant_comprada(int quantidade) {
-    //     quant_comprada += quantidade;
-    // }
-
-    // public void addQuant_vendida(int quantidade) {
-    //     quant_vendida += quantidade;
-    // }
-
-    // public void addIvestimento(float investimento) {
-    //     this.investimento += investimento;
-    // }
 
     public void addLucro_bruto(float lucro_bruto) {
         this.lucro_bruto += lucro_bruto;
@@ -189,11 +180,6 @@ public class Estoque {
             saida += item.toString() + "\n";
         }
         return saida;
-    }
-
-    // ADICIONAR PRODUTOS VENDIDOS
-    public void adicionarItemVendido() {
-
     }
 
 }

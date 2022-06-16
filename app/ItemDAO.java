@@ -1,6 +1,4 @@
 package app;
-
-import connections.*;
 import myexceptions.ItemException;
 
 import java.sql.Connection;
@@ -14,8 +12,8 @@ public class ItemDAO {
 
 	private Connection con;
 
-	public ItemDAO (){
-		this.con = ConnectionFactory.getConnection();
+	public ItemDAO (Connection conexao){
+		this.con = conexao;
 	}
 
 	// METODO QUE ADICIONA ITENS AO BANDO DE DADOS

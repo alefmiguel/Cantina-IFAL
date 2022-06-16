@@ -1,8 +1,12 @@
-import javax.swing.JFrame;
 import telas.*;
 
 class Main {
 	public static void main(String[] args) {
-		JFrame telaEscolha = new TelaEscolha();
+		try {
+			new TelaEscolha();
+			// new TelaLoginNew();
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 	}
 }

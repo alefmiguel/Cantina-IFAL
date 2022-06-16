@@ -1,20 +1,23 @@
 package app;
 
+import java.sql.Connection;
+
 public class ItemVendido {
     private int cod_venda;
     private int cod_prod;
     private int quantidade;
     private int id = 1;
+    private Connection conexao;
 
-    public ItemVendido (){
-        
+    public ItemVendido (Connection conexao){
+        this.conexao = conexao;
     }
     
     public ItemVendido (int cod_prod, int cod_venda, int quantidade){
         if(cod_venda < 0 || cod_prod < 0 || quantidade < 0){
             throw new IllegalArgumentException("\nTodos os argumentos devem ser maior que 0!");
         }
-        ItemVendidoDAO itemVendidoDAO = new ItemVendidoDAO();
+        ItemVendidoDAO itemVendidoDAO = new ItemVendidoDAO(conexao);
         this.cod_venda = cod_venda;
         this.cod_prod = cod_prod;
         this.quantidade = quantidade;
