@@ -4,7 +4,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
+import java.sql.Connection;
+
 
 public class TelaCadastraFunc extends JFrame {
 
@@ -23,13 +24,14 @@ public class TelaCadastraFunc extends JFrame {
 	private Container painel;
 	private GridLayout layout;
 	
+	private Connection conexao;
 	private Image image = new ImageIcon("image/logo3.png").getImage();
-	private FuncionarioDAO funcDAO;
 	// private Funcionario adm = new Funcionario("admin", "admin");
 
-	public TelaCadastraFunc()  {
+	public TelaCadastraFunc(Connection conexao)  {
 
-        this.cantina = new Cantina();
+		this.conexao = conexao;
+        this.cantina = new Cantina(this.conexao);
 
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -55,8 +57,6 @@ public class TelaCadastraFunc extends JFrame {
         botaoVoltar = new JButton("Voltar");
 
 
-
-		funcDAO = new FuncionarioDAO();
 		// FONTE
 		Font fonte = new Font("Monospace", Font.BOLD, 12);
 		txtNome.setFont(fonte);
@@ -110,7 +110,7 @@ public class TelaCadastraFunc extends JFrame {
 	}
 
 	private void acaoBotaoVoltar() {
-		JFrame telaAdm = new TelaAdm();
+		JFrame telaAdm = new TelaAdm(this.conexao);
 		this.dispose();
 		telaAdm.setVisible(true);
 	}

@@ -1,9 +1,11 @@
 package telas;
+
 import app.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class TelaClienteEPrd extends JFrame {
@@ -21,18 +23,16 @@ public class TelaClienteEPrd extends JFrame {
     private GridLayout layout;
     private DefaultListCellRenderer listRenderer;
     private Image image = new ImageIcon("image/logo3.png").getImage();
-
+    private Connection conexao;
     private ArrayList<ItemVendido> carrinho;
-    private int cod_venda;
 
     // TELA CLIENTE ESCOLHE PRODUTO
-    public TelaClienteEPrd(int cod_venda, ArrayList<ItemVendido> carrinho) {
-
-        this.cod_venda = cod_venda;
+    public TelaClienteEPrd(int cod_venda, ArrayList<ItemVendido> carrinho, Connection conexao) {
+        this.conexao = conexao;
         this.carrinho = carrinho;
 
         // OBJETOS APP
-        cantina = new Cantina();
+        cantina = new Cantina(this.conexao);
         produtos = cantina.getEstoque().produtosDisponiveis();
 
         //
@@ -111,11 +111,16 @@ public class TelaClienteEPrd extends JFrame {
         btnAdicionar.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
-                        JOptionPane.showMessageDialog(painel, "Produto Adicionado!");
-                        cantina.getEstoque().atualizarEstoque();
-                        adicionaItemCarrinho(
-                                Integer.parseInt(comboBprodutos.getSelectedItem().toString().substring(0, 1)),
-                                cod_venda, (int) model.getValue());
+                        if (comboBprodutos.getSelectedItem() != null) {
+                            cantina.getEstoque().atualizarEstoque();
+                            adicionaItemCarrinho(
+                                    Integer.parseInt(comboBprodutos.getSelectedItem().toString().substring(0, 1)),
+                                    cod_venda, (int) model.getValue());
+                            JOptionPane.showMessageDialog(painel, "Produto Adicionado!");
+                        }else{
+                            JOptionPane.showMessageDialog(painel, "Nenhum produto Disponível!");
+                        }
+
                     }
                 });
 
@@ -140,7 +145,7 @@ public class TelaClienteEPrd extends JFrame {
     }
 
     private void acaoBtnVoltar(int cod_venda, ArrayList<ItemVendido> carrinho) {
-        JFrame telaCliente = new TelaClienteCpm(cod_venda, carrinho);
+        JFrame telaCliente = new TelaClienteCpm(cod_venda, carrinho, this.conexao);
         this.dispose();
         telaCliente.setVisible(true);
     }

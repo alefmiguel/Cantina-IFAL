@@ -1,14 +1,16 @@
 package telas;
 import app.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 
-import java.text.ParseException;
+
 
 public class TelaCadastraProdutos extends JFrame {
+
+	private Connection conexao;
 
     private Cantina cantina;
 	private JLabel txtNome;
@@ -28,12 +30,11 @@ public class TelaCadastraProdutos extends JFrame {
 	private GridLayout layout;
 	
 	private Image image = new ImageIcon("image/logo3.png").getImage();
-	private FuncionarioDAO funcDAO;
 	// private Funcionario adm = new Funcionario("admin", "admin");
 
-	public TelaCadastraProdutos()  {
-
-        this.cantina = new Cantina();
+	public TelaCadastraProdutos(Connection conexao)  {
+		this.conexao = conexao;
+        this.cantina = new Cantina(this.conexao);
 
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -60,8 +61,6 @@ public class TelaCadastraProdutos extends JFrame {
         botaoVoltar = new JButton("Voltar");
 
 
-
-		funcDAO = new FuncionarioDAO();
 		// FONTE
 		Font fonte = new Font("Monospace", Font.BOLD, 12);
 		txtNome.setFont(fonte);
@@ -117,7 +116,7 @@ public class TelaCadastraProdutos extends JFrame {
 	}
 
 	private void acaoBotaoVoltar() {
-		JFrame telaAdm = new TelaAdm();
+		JFrame telaAdm = new TelaAdm(this.conexao);
 		this.dispose();
 		telaAdm.setVisible(true);
 	}

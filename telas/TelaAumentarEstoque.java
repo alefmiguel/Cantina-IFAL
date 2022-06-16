@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class TelaAumentarEstoque extends JFrame {
@@ -22,11 +23,14 @@ public class TelaAumentarEstoque extends JFrame {
     private DefaultListCellRenderer listRenderer;
     private Image image = new ImageIcon("image/logo3.png").getImage();
 
+    private Connection conexao;
+
     // TELA CLIENTE ESCOLHE PRODUTO
-    public TelaAumentarEstoque() {
+    public TelaAumentarEstoque(Connection conexao) {
+        this.conexao = conexao;
 
         // OBJETOS APP
-        cantina = new Cantina();
+        cantina = new Cantina(this.conexao);
         produtos = cantina.getEstoque().produtosDisponiveis();
 
         //
@@ -47,7 +51,6 @@ public class TelaAumentarEstoque extends JFrame {
         comboBprodutos = criaComboBox(produtos);
         comboBprodutos.setRenderer(listRenderer);
         model = new SpinnerNumberModel(1, 1, 100000, 1);
-        
 
         qtdEscolher = new JSpinner(model);
         btnVoltar = new JButton("Voltar");
@@ -85,18 +88,22 @@ public class TelaAumentarEstoque extends JFrame {
         btnAdicionar.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
-                        cantina.getEstoque().atualizarEstoque();
-                        adicionaQuantidadeItem(comboBprodutos.getSelectedItem().toString(), (int) model.getValue());
-                        JOptionPane.showMessageDialog(painel, "Produto Adicionado!");
-                        cantina.getEstoque().atualizarEstoque();
-                        acaoBtnVoltar();
+                        if (comboBprodutos.getSelectedItem() != null) {
+                            cantina.getEstoque().atualizarEstoque();
+                            adicionaQuantidadeItem(comboBprodutos.getSelectedItem().toString(), (int) model.getValue());
+                            JOptionPane.showMessageDialog(painel, "Produto Adicionado!");
+                            cantina.getEstoque().atualizarEstoque();
+                            acaoBtnVoltar();
+                        }else{
+                            JOptionPane.showMessageDialog(painel, "Nenhum Produto Disponível!");
+                        }
                     }
                 });
 
     }
 
     private void acaoBtnVoltar() {
-        JFrame telaAdm = new TelaAdm();
+        JFrame telaAdm = new TelaAdm(this.conexao);
         this.dispose();
         telaAdm.setVisible(true);
     }

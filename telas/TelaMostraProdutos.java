@@ -3,25 +3,25 @@ import app.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class TelaMostraProdutos extends JFrame {
 
-    private Cantina cantina = new Cantina();
-    private JList jlist;
+    private Cantina cantina;
+    private JList<Item> jlist;
     private JScrollPane scrollPane;
-    private DefaultListModel model;
+    private DefaultListModel<Item> model;
     private JLabel texto;
     private Container painel; 
     private GridLayout layout;
-    private DefaultListCellRenderer listRenderer;
     private Image image = new ImageIcon("image/logo3.png").getImage();
-    
+    private Connection conexao;
     private ArrayList<Item> produtos;
 
-    public TelaMostraProdutos() {
-
+    public TelaMostraProdutos(Connection conexao) {
+        this.conexao = conexao;
+        this.cantina = new Cantina(this.conexao);
         this.produtos = cantina.getEstoque().produtosDisponiveis();
 
         // 

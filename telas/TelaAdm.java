@@ -4,6 +4,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 
 public class TelaAdm extends JFrame {
 
@@ -18,11 +19,11 @@ public class TelaAdm extends JFrame {
 	private GridLayout layout;
 	private Image image = new ImageIcon("image/logo3.png").getImage();
 	private Cantina cantina;
+	private Connection conexao;
 
-
-	public TelaAdm() {
-
-		cantina = new Cantina();
+	public TelaAdm(Connection conexao) {
+		this.conexao = conexao;
+		this.cantina = new Cantina(this.conexao);
 
 		//
 		try {
@@ -113,19 +114,19 @@ public class TelaAdm extends JFrame {
 	}
 
 	private void acaoBtnSair(ActionEvent event) {
-		TelaLogin telaLogin = new TelaLogin();
+		TelaLogin telaLogin = new TelaLogin(this.conexao);
 			this.dispose();
 			telaLogin.setVisible(true);
 	}
 
 	private void acaoBtnCadastra(){
-		JFrame telaCadastra = new TelaCadastraProdutos();
+		JFrame telaCadastra = new TelaCadastraProdutos(this.conexao);
 		this.dispose();
 		telaCadastra.setVisible(true);
 	}
 
 	private void acaoBtnAumentaProd(){
-		JFrame telaAumenta = new TelaAumentarEstoque();
+		JFrame telaAumenta = new TelaAumentarEstoque(this.conexao);
 		this.dispose();
 		telaAumenta.setVisible(true);
 	}
@@ -135,13 +136,13 @@ public class TelaAdm extends JFrame {
 	}
 
 	private void acaoBtnCadastraFunc(){
-		JFrame telaCadastraFunc = new TelaCadastraFunc();
+		JFrame telaCadastraFunc = new TelaCadastraFunc(this.conexao);
 		this.dispose();
 		telaCadastraFunc.setVisible(true);
 	}
 
 	private void mostraCadastrados(){
-		TelaMostraFunc telaMostraFunc = new TelaMostraFunc();
+		TelaMostraFunc telaMostraFunc = new TelaMostraFunc(this.conexao);
 		telaMostraFunc.setVisible(true);
 	}
 }

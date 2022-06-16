@@ -1,9 +1,12 @@
 package telas;
-import app.*;
 import javax.swing.border.EmptyBorder;
+
+import connections.ConnectionFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 
 public class TelaEscolha extends JFrame {
 
@@ -13,9 +16,10 @@ public class TelaEscolha extends JFrame {
 	private Container painel;
 	private GridLayout layout;
 	private Image image = new ImageIcon("image/logo3.png").getImage();
+	private Connection conexao;
 
 	public TelaEscolha() {
-
+		this.conexao = ConnectionFactory.getConnection();
 		//
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -68,13 +72,13 @@ public class TelaEscolha extends JFrame {
 	}
 
 	private void acaoBtnAdm(ActionEvent event) {
-		JFrame telaLogin = new TelaLogin();
+		JFrame telaLogin = new TelaLogin(conexao);
 		this.dispose();
 		telaLogin.setVisible(true);
 	}
 
 	private void acaoBtnCliente(ActionEvent event) {
-		JFrame telaCliente = new TelaCliente();
+		JFrame telaCliente = new TelaCliente(conexao);
 		this.dispose();
 		telaCliente.setVisible(true);
 	}

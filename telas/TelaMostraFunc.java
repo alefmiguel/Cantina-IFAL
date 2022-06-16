@@ -3,25 +3,26 @@ import app.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class TelaMostraFunc extends JFrame {
 
-    private Cantina cantina = new Cantina();
-    private JList jlist;
+    private Cantina cantina;
+    private JList<Funcionario> jlist;
     private JScrollPane scrollPane;
-    private DefaultListModel model;
+    private DefaultListModel<Funcionario> model;
     private JLabel texto;
     private Container painel; 
     private GridLayout layout;
-    private DefaultListCellRenderer listRenderer;
+    private Connection conexao;
     private Image image = new ImageIcon("image/logo3.png").getImage();
     
     private ArrayList<Funcionario> funcionarios;
 
-    public TelaMostraFunc() {
-
+    public TelaMostraFunc(Connection conexao) {
+        this.conexao = conexao;
+        this.cantina =  new Cantina(this.conexao);
         this.funcionarios = cantina.getFunc_cadastrados();
 
         // 

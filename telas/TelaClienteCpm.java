@@ -4,6 +4,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class TelaClienteCpm extends JFrame {
@@ -19,11 +20,12 @@ public class TelaClienteCpm extends JFrame {
     private Cantina cantina;
     private int cod_venda;
     private ArrayList<ItemVendido> carrinho;
+    private Connection conexao;
 
-    public TelaClienteCpm(int cod_venda, ArrayList<ItemVendido> carrinho) {
-        
+    public TelaClienteCpm(int cod_venda, ArrayList<ItemVendido> carrinho, Connection conexao) {
+        this.conexao = conexao;
         this.cod_venda = cod_venda;
-        this.cantina = new Cantina();
+        this.cantina = new Cantina(this.conexao);
         this.carrinho = carrinho;
         
         // 
@@ -107,14 +109,14 @@ public class TelaClienteCpm extends JFrame {
     }
 
     private void acaoBtnVoltar(){
-        JFrame telaCliente = new TelaCliente();
+        JFrame telaCliente = new TelaCliente(this.conexao);
         this.dispose();
         telaCliente.setVisible(true);
     }
 
     private void acaoBtnComprar(int cod_venda, ArrayList<ItemVendido> carrinho){
         
-        JFrame telaCompra = new TelaClienteEPrd(cod_venda, carrinho);
+        JFrame telaCompra = new TelaClienteEPrd(cod_venda, carrinho, this.conexao);
         this.dispose();
         telaCompra.setVisible(true);
     }

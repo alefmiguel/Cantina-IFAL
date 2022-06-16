@@ -1,12 +1,10 @@
 package telas;
 import app.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
-import java.text.ParseException;
+import java.sql.Connection;
 
 public class TelaLogin extends JFrame {
 
@@ -14,16 +12,18 @@ public class TelaLogin extends JFrame {
 	// private JTextField inputUsuario;
 	private JTextField inputUsuario;
 	private JButton botaoEnviar;
+	private JButton botaoVoltar;
 	private Container painel;
 	private GridLayout layout;
 	private JLabel txtSenha;
 	private JPasswordField inputSenha;
-	private JButton botaoVoltar;
 	private Image image = new ImageIcon("image/logo3.png").getImage();
-	private FuncionarioDAO funcDAO;
-	// private Funcionario adm = new Funcionario("admin", "admin");
+	private Cantina cantina;
+	private Connection conexao;
 
-	public TelaLogin()  {
+	public TelaLogin(Connection conexao)  {
+
+		this.conexao = conexao;
 
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -45,7 +45,7 @@ public class TelaLogin extends JFrame {
 		inputSenha = new JPasswordField(6);
 		botaoEnviar = new JButton("Entrar");
 		botaoVoltar = new JButton("Voltar");
-		funcDAO = new FuncionarioDAO();
+		cantina = new Cantina(this.conexao);
 		// FONTE
 		Font fonte = new Font("Monospace", Font.BOLD, 12);
 		txtUsuario.setFont(fonte);
@@ -111,8 +111,8 @@ public class TelaLogin extends JFrame {
 		String senha = String.valueOf(inputSenha.getPassword());
 
 		if(usuario.length() != 0 && senha.length() != 0){
-			if (funcDAO.checarFuncionario(Integer.parseInt(usuario)) && funcDAO.checarSenha(senha)) {
-				JFrame telaAdm = new TelaAdm();
+			if (cantina.getFuncDAO().checarFuncionario(Integer.parseInt(usuario)) && cantina.getFuncDAO().checarSenha(senha)) {
+				JFrame telaAdm = new TelaAdm(this.conexao);
 				this.dispose();
 				telaAdm.setVisible(true);
 			} else {
